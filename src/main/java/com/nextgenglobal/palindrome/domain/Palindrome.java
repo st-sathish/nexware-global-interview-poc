@@ -1,0 +1,36 @@
+package com.nextgenglobal.palindrome.domain;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity(name = "Palindrome")
+@Table
+public final class Palindrome {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private long id;
+	
+	@Column(name = "name")
+	private String name;
+	
+	public Palindrome() {
+		
+	}
+	
+	public Palindrome(final String name) {
+		this.name = name;
+	}
+	public String getName() {
+		return this.name;
+	}
+	
+	public String setName(final String name) {
+		return this.name;
+	}
+	
+}
