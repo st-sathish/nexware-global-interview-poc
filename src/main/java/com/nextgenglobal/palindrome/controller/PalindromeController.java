@@ -23,7 +23,7 @@ public class PalindromeController {
 	@GetMapping(path = "/")
     public ModelAndView index() {
 		final ModelAndView modelAndView = new ModelAndView("index", "palindromeForm", new PalindromeForm());
-		modelAndView.addObject("data", this.palindromeService.retrieveAll());
+		modelAndView.addObject("items", this.palindromeService.retrieveAll());
 		return modelAndView;
     }
 	

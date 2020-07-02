@@ -55,6 +55,4 @@ public class PalindromeServiceImpl implements PalindromeService {
 			return palindromeListData;
 		}
 	}
-
-	
 }
