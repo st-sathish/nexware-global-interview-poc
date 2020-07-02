@@ -10,10 +10,10 @@ public class PalindromeFormValidator {
 
 	public void validateForm(final PalindromeForm form) {
 		if(form.getName() == null || form.getName().equals("")) {
-			throw new RuntimeException("form name field shouldn't be empty");
+			throw new RuntimeException("Name field shouldn't be empty");
 		}
 		if(!MathUtils.isPalindrome(form.getName())) {
-			throw new InvalidPalindromeException("Invalid Palindrome");
+			throw new InvalidPalindromeException("Palindrome not valid");
 		}
 	}
 }

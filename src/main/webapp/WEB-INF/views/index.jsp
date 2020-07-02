@@ -14,6 +14,9 @@
 </head>
 <body>
 <h2>Palindrome POC</h2>
+	<c:if test="${not empty error}">
+		<div style="color:red">Error: ${error}</div>
+	</c:if>
 	<form:form method="POST" action="/nextgenglobal/create" modelAttribute="palindromeForm">
 	    <form:label path="name">Name</form:label>
 	    <form:input path="name" id="palindrome" />     
