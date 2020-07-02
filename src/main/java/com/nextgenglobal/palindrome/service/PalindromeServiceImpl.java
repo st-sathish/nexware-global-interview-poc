@@ -36,7 +36,7 @@ public class PalindromeServiceImpl implements PalindromeService {
 
 	@Override
 	public void create(final PalindromeForm form) {
-		palindromeFormValidator.validateCreate(form);
+		palindromeFormValidator.validateForm(form);
 		final Palindrome palindrome = Palindrome.from(form);
 		palindromeRepository.save(palindrome);
 	}
