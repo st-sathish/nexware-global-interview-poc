@@ -3,8 +3,11 @@ package com.nextgenglobal.palindrome.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.nextgenglobal.palindrome.form.PalindromeForm;
 import com.nextgenglobal.palindrome.service.PalindromeService;
 
 @Controller
@@ -17,18 +20,23 @@ public class PalindromeController {
 		this.palindromeService = palindromeService;
 	}
 	
-	@GetMapping
+	@GetMapping(path = "/")
     public ModelAndView index() {
-		final ModelAndView modelAndView = new ModelAndView("index");
+		final ModelAndView modelAndView = new ModelAndView("index", "palindromeForm", new PalindromeForm());
 		modelAndView.addObject("data", this.palindromeService.retrieveAll());
 		return modelAndView;
     }
 	
-	/*
-	 * @PostMapping public ModelAndView create() { final ModelAndView modelAndView =
-	 * new ModelAndView("index"); return modelAndView; }
-	 * 
-	 * @PostMapping public ModelAndView autoComplete() { final ModelAndView
-	 * modelAndView = new ModelAndView("index"); return modelAndView; }
-	 */
+	@PostMapping(path = "/create")
+	public ModelAndView create(@ModelAttribute("palindromeForm") PalindromeForm palindromeForm) {
+		palindromeService.create(palindromeForm);
+		final ModelAndView modelAndView = new ModelAndView("index", "palindromeForm", new PalindromeForm());
+		return modelAndView;
+	}
+	
+	@PostMapping(path = "/autocomplete")
+	public ModelAndView autoComplete() {
+		final ModelAndView modelAndView = new ModelAndView("index");
+		return modelAndView;
+	}
 }

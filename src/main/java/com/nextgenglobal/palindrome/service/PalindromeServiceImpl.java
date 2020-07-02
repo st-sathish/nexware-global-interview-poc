@@ -35,8 +35,10 @@ public class PalindromeServiceImpl implements PalindromeService {
 	}
 
 	@Override
-	public void create(PalindromeForm form) {
+	public void create(final PalindromeForm form) {
 		palindromeFormValidator.validateCreate(form);
+		final Palindrome palindrome = Palindrome.from(form);
+		palindromeRepository.save(palindrome);
 	}
 	
 	private static class PalindromeRowMapper {
