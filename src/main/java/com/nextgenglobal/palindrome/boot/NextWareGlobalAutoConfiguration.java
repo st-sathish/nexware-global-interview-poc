@@ -20,23 +20,20 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @Configuration
 @EnableJpaRepositories("com.nextgenglobal.palindrome.domain")
 @PropertySource(value = {"classpath:application.properties"})
-public class NextwareGlobalAutoConfiguration {
+public class NextWareGlobalAutoConfiguration {
 
 	@Autowired
     private Environment environment;
 	
-	@Autowired
-    private LocalContainerEntityManagerFactoryBean factoryBean;
-	
 	@Bean
-    public JpaVendorAdapter getJpaVendorAdapter() {
+    public JpaVendorAdapter jpaVendorAdapter() {
         JpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
         return adapter;
     }
 
     @Bean(name = "transactionManager")
     public PlatformTransactionManager txManager() {
-        JpaTransactionManager jpaTransactionManager = new JpaTransactionManager(factoryBean.getObject());
+        JpaTransactionManager jpaTransactionManager = new JpaTransactionManager(getEntityManagerFactoryBean().getObject());
         return jpaTransactionManager;
     }
     
@@ -48,5 +45,25 @@ public class NextwareGlobalAutoConfiguration {
         dataSource.setUsername(environment.getRequiredProperty("jdbc.username"));
         dataSource.setPassword(environment.getRequiredProperty("jdbc.password"));
         return dataSource;
+    }
+	
+	@Bean(name = "entityManagerFactory")
+    public LocalContainerEntityManagerFactoryBean getEntityManagerFactoryBean() {
+        LocalContainerEntityManagerFactoryBean lcemfb = new LocalContainerEntityManagerFactoryBean();
+        lcemfb.setJpaVendorAdapter(jpaVendorAdapter());
+        lcemfb.setDataSource(dataSource());
+        lcemfb.setPersistenceUnitName("nextware_global");
+        lcemfb.setPackagesToScan("com.nextgenglobal");
+        lcemfb.setJpaProperties(hibernateProperties());
+        return lcemfb;
+    }
+	
+	private Properties hibernateProperties() {
+        Properties properties = new Properties();
+        properties.put("hibernate.dialect", environment.getRequiredProperty("hibernate.dialect"));
+        properties.put("hibernate.show_sql", environment.getRequiredProperty("hibernate.show_sql"));
+        properties.put("hibernate.format_sql", environment.getRequiredProperty("hibernate.format_sql"));
+        properties.put("hibernate.hbm2ddl.auto", environment.getRequiredProperty("hibernate.hbm2ddl.auto"));
+        return properties;
     }
 }

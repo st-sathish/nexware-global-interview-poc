@@ -8,14 +8,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity(name = "Palindrome")
-@Table
+@Table(name = "palindrome")
 public final class Palindrome {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	
-	@Column(name = "name")
+	@Column(name = "list")
 	private String name;
 	
 	public Palindrome() {
@@ -32,5 +32,15 @@ public final class Palindrome {
 	public String setName(final String name) {
 		return this.name;
 	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+	
+	
 	
 }

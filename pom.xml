@@ -18,7 +18,7 @@
     <maven.compiler.source>12</maven.compiler.source>
     <maven.compiler.target>12</maven.compiler.target>
     <spring.version>5.2.3.RELEASE</spring.version>
-	<hibernate.version>5.2.10.Final</hibernate.version>
+	<hibernate.version>5.4.1.Final</hibernate.version>
 	<mysql.connector.version>5.1.17</mysql.connector.version>
   </properties>
 
