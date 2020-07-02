@@ -10,4 +10,6 @@ public interface PalindromeService {
 	List<PalindromeData> retrieveAll();
 	
 	void create(final PalindromeForm form);
+	
+	List<String> autocomplete(final String query);
 }

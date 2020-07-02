@@ -41,6 +41,16 @@ public class PalindromeServiceImpl implements PalindromeService {
 		palindromeRepository.save(palindrome);
 	}
 	
+	@Override
+	public List<String> autocomplete(final String query) {
+		final List<Palindrome> palindromeList = this.palindromeRepository.findByNameContaining(query);
+		final List<String> results = new ArrayList<>();
+		for(Palindrome palindrome: palindromeList) {
+			results.add(palindrome.getName());
+		}
+		return results;
+	}
+
 	private static class PalindromeRowMapper {
 		
 		public PalindromeData map(final Palindrome palindrome) {

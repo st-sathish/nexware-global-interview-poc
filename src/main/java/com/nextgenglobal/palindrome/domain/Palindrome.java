@@ -6,11 +6,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import com.nextgenglobal.palindrome.form.PalindromeForm;
 
 @Entity(name = "Palindrome")
-@Table(name = "palindrome")
+@Table(name = "palindrome", uniqueConstraints={@UniqueConstraint(columnNames={"list"})})
 public final class Palindrome {
 	
 	@Id
