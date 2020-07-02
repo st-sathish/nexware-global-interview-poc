@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nextgenglobal.palindrome.form.PalindromeForm;
 import com.nextgenglobal.palindrome.service.PalindromeService;
 
@@ -24,17 +26,17 @@ public class PalindromeController {
 	}
 	
 	@GetMapping(path = "/")
-    public ModelAndView index() {
+    public ModelAndView index() throws JsonProcessingException {
 		final ModelAndView modelAndView = new ModelAndView("index", "palindromeForm", new PalindromeForm());
-		modelAndView.addObject("items", this.palindromeService.retrieveAll());
+		ObjectMapper mapper = new ObjectMapper();
+		modelAndView.addObject("items", mapper.writeValueAsString(this.palindromeService.retrieveAll()));
 		return modelAndView;
     }
 	
 	@PostMapping(path = "/create")
-	public ModelAndView create(@ModelAttribute("palindromeForm") PalindromeForm palindromeForm) {
+	public String create(@ModelAttribute("palindromeForm") PalindromeForm palindromeForm) {
 		palindromeService.create(palindromeForm);
-		final ModelAndView modelAndView = new ModelAndView("index", "palindromeForm", new PalindromeForm());
-		return modelAndView;
+		return "redirect:/";
 	}
 	
 	@GetMapping(path = "/autocomplete")

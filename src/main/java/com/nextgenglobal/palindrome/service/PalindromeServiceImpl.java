@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.nextgenglobal.palindrome.data.PalindromeData;
 import com.nextgenglobal.palindrome.domain.Palindrome;
 import com.nextgenglobal.palindrome.domain.PalindromeRepository;
+import com.nextgenglobal.palindrome.exception.PalindromeFoundException;
 import com.nextgenglobal.palindrome.form.PalindromeForm;
 import com.nextgenglobal.palindrome.form.PalindromeFormValidator;
 
@@ -37,6 +38,10 @@ public class PalindromeServiceImpl implements PalindromeService {
 	@Override
 	public void create(final PalindromeForm form) {
 		palindromeFormValidator.validateForm(form);
+		final Palindrome dbPalindrome = palindromeRepository.findByName(form.getName());
+		if(dbPalindrome != null) {
+			throw new PalindromeFoundException("Palindrome already found");
+		}
 		final Palindrome palindrome = Palindrome.from(form);
 		palindromeRepository.save(palindrome);
 	}

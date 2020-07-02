@@ -12,4 +12,7 @@ public interface PalindromeRepository extends JpaRepository<Palindrome, Long>{
 
 	@Query("Select p from Palindrome p where p.name like %:name%")
 	List<Palindrome> findByNameContaining(@Param("name") String name);
+	
+	@Query("Select p from Palindrome p where p.name =:name")
+	Palindrome findByName(@Param("name") String name);
 }

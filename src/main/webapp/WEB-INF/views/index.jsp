@@ -5,8 +5,12 @@
 <head>
     <title>NextGenGlobal Example</title>
     <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" />
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+	<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 </head>
 <body>
 <h2>Palindrome POC</h2>
@@ -15,30 +19,31 @@
 	    <form:input path="name" id="palindrome" />     
 	    <input type="submit" value="Submit" />
 	</form:form>
-	<c:if test="${not empty items}">
-		<table>
-			<thead>
-				<tr>
-					<th>SI No</th>
-					<th>Palindromes</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach var="item" items="${items}">
-					<tr>
-						<td>${item.id}</td>
-						<td>${item.name}</td>
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
-	</c:if>
+	<table id="datatable" class="display" cellspacing="0" width="100%" style="overflow-x:auto">
+		<thead>
+			<tr>
+				<th>SI No</th>
+				<th>Palindromes</th>
+			</tr>
+		</thead>
+	</table>
 	<script type="text/javascript">
 		function split(val) {
 		    return val.split(/,\s*/);
 		}
 		function extractLast(term) {
 		    return split(term).pop();
+		}
+		function initDataTable() {
+			var data =eval('${items}');
+			var table = $('#datatable').DataTable({
+				searching: false,
+				"aaData": data,
+				"aoColumns": [
+					{ "mData": "id"},
+					{ "mData": "name"}
+				]
+			});
 		}
 		$(document).ready(function() {	
 			$( "#palindrome").autocomplete({
@@ -59,17 +64,10 @@
 			        return false;
 			    },
 			    select: function (event, ui) {
-			        var terms = split(this.value);
-			        // remove the current input
-			        terms.pop();
-			        // add the selected item
-			        terms.push(ui.item.value);
-			        // add placeholder to get the comma-and-space at the end
-			        terms.push("");
-			        this.value = terms.join(", ");
-			        return false;
+			        event.preventDefault();
 			    }
 			});
+		initDataTable();
 	});
 </script>
 </body>
